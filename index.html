@@ -304,21 +304,27 @@
         return;
       }
 
-      google.script.run
-        .withSuccessHandler(function(response) {
-          if (response && response.message) {
-            alert(response.message);
-          }
-          if(response && response.success) {
-            clearFormCallback(); // ล้างฟอร์มเมื่อสำเร็จ
-          }
-          resetButton();
-        })
-        .withFailureHandler(function(error) {
-          alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + (error && error.message ? error.message : error));
-          resetButton();
-        })
-        .saveEventFromWebApp(data);
+      // ห่อการเรียกด้วย try/catch เพื่อไม่ให้ปุ่มค้างเงียบ ๆ หากเกิด error แบบ synchronous
+      try {
+        google.script.run
+          .withSuccessHandler(function(response) {
+            if (response && response.message) {
+              alert(response.message);
+            }
+            if(response && response.success) {
+              clearFormCallback(); // ล้างฟอร์มเมื่อสำเร็จ
+            }
+            resetButton();
+          })
+          .withFailureHandler(function(error) {
+            alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + (error && error.message ? error.message : error));
+            resetButton();
+          })
+          .saveEventFromWebApp(data);
+      } catch (e) {
+        alert("ไม่สามารถเรียกใช้งานระบบได้: " + (e && e.message ? e.message : e));
+        resetButton();
+      }
     }
 
     // ตั้งค่าวันที่เริ่มต้นของทั้งสองฟอร์มเป็นวันนี้โดยอัตโนมัติ
