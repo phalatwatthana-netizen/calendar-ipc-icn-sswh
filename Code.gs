@@ -1,8 +1,8 @@
-// เปิดหน้าเว็บ Web App (กรณีเปิดผ่าน Apps Script โดยตรง)
+// สถานะ backend (กรณีเปิด URL .../exec ตรง ๆ ด้วย GET)
+// หน้าเว็บฟอร์มอยู่ที่ Netlify ไม่ต้องมีไฟล์ HTML ในโปรเจกต์นี้
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('ระบบบันทึกนัดหมายและกิจกรรม')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  return ContentService
+    .createTextOutput('✅ ระบบ backend พร้อมทำงาน กรุณาใช้งานผ่านหน้าเว็บบน Netlify');
 }
 
 // รับข้อมูลแบบ HTTP POST (กรณีหน้าเว็บอยู่คนละโดเมน เช่น Netlify แล้วยิงผ่าน fetch)

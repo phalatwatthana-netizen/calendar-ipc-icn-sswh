@@ -3,23 +3,18 @@
 เว็บแอปสำหรับบันทึกนัดหมาย/กิจกรรมลง Google Calendar ทำงานบน **Google Apps Script**
 รองรับ 2 ฟอร์ม: กิจกรรมทั่วไป และ นัดติดตามผลเลือด
 
-## โครงสร้างไฟล์
+## สถาปัตยกรรม
 
-| ไฟล์ใน repo | ชื่อไฟล์ในโปรเจกต์ Apps Script | หน้าที่ |
-|-------------|-------------------------------|---------|
-| `index.html` | `index` | หน้าเว็บ (frontend) |
-| `Code.gs`    | `Code` (หรือ `รหัส`)          | โค้ดฝั่งเซิร์ฟเวอร์ (`doGet`, `saveEventFromWebApp`) |
+- **Frontend:** `index.html` โฮสต์บน **Netlify** (`https://calendar-ipc-icn-sswh.netlify.app/`)
+- **Backend:** `Code.gs` อยู่บน **Google Apps Script** เป็น Web App รับข้อมูลผ่าน `doPost` แล้วบันทึกลง Calendar
 
-## วิธีติดตั้ง / แก้ปัญหา `No HTML file named index was found`
+| ไฟล์ใน repo | ที่อยู่จริง | หน้าที่ |
+|-------------|------------|---------|
+| `index.html` | Netlify | หน้าเว็บฟอร์ม ยิงข้อมูลด้วย `fetch()` ไปที่ `SCRIPT_URL` |
+| `Code.gs`    | Apps Script (ไฟล์เดียว) | `doPost` รับข้อมูล + `saveEvent` บันทึกปฏิทิน |
 
-`doGet()` เรียก `HtmlService.createHtmlOutputFromFile('index')` ซึ่งจะมองหาไฟล์
-ที่ชื่อว่า **`index`** ในโปรเจกต์ Apps Script
-
-- ชื่อไฟล์ HTML ในตัว editor **ไม่มีนามสกุล `.html`** ต่อท้าย — ไฟล์ `index.html` จะแสดงชื่อเป็น `index`
-- ตัวพิมพ์เล็ก/ใหญ่มีผล: `Index` ≠ `index`
-
-หากพบ error นี้ ให้เข้า Apps Script editor → คลิก `⋮` ข้างไฟล์ HTML → **Rename** →
-ตั้งชื่อเป็น `index` (ตัวพิมพ์เล็กทั้งหมด) แล้ว **Deploy เวอร์ชันใหม่**
+> โปรเจกต์ Apps Script **มีแค่ไฟล์ `Code.gs` ไฟล์เดียว ไม่ต้องมีไฟล์ HTML** — `doGet`
+> คืนข้อความสถานะเฉย ๆ (ฟอร์มอยู่บน Netlify) จึงไม่มีปัญหา `No HTML file named index`
 
 ## การตั้งค่า
 
