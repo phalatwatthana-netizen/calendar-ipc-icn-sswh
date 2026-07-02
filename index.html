@@ -331,19 +331,26 @@
       }
 
       // ช่องทางที่ 2: เปิดจากโดเมนอื่น เช่น Netlify → ยิงไป Apps Script ผ่าน fetch()
-      // ส่งเป็น text/plain เพื่อเลี่ยง CORS preflight (ฝั่ง doPost จะ JSON.parse เอง)
       if (!SCRIPT_URL || SCRIPT_URL.indexOf('http') !== 0) {
         alert("ยังไม่ได้ตั้งค่า SCRIPT_URL ในหน้าเว็บ กรุณาระบุ URL ของ Apps Script (.../exec)");
         resetButton();
         return;
       }
 
+      // ใช้ mode 'no-cors' เพราะ Apps Script (ContentService) ตั้ง header CORS ไม่ได้
+      // ส่งเป็น text/plain (simple request) เพื่อให้เป็น request ที่ browser อนุญาต
+      // ข้อจำกัด: อ่านผลลัพธ์กลับไม่ได้ (opaque) จึงถือว่าส่งสำเร็จเมื่อ fetch ไม่ error
       fetch(SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',
         body: JSON.stringify(data)
       })
-        .then(function(res) { return res.json(); })
-        .then(handleResponse)
+        .then(function() {
+          handleResponse({
+            success: true,
+            message: "✅ ส่งข้อมูลบันทึกลงปฏิทินแล้ว\n(กรุณาตรวจสอบความถูกต้องในปฏิทินอีกครั้ง)"
+          });
+        })
         .catch(handleError);
     }
 

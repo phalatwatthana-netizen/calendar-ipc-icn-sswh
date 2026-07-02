@@ -41,5 +41,7 @@ Deploy → New deployment → เลือกชนิด **Web app** → ตั
 - ตั้งค่าตัวแปร `SCRIPT_URL` ในหัว `<script>` ของ `index.html` ให้เป็น URL `.../exec` ล่าสุด
   (ถ้าสร้าง deployment ใหม่ URL จะเปลี่ยน ต้องอัปเดตด้วย)
 - Deployment ต้องตั้ง **"Who has access" = `Anyone`** เพื่อให้ `fetch()` เข้าถึงได้โดยไม่ต้องล็อกอิน
-- `fetch` ส่ง body เป็น `text/plain` (JSON string) เพื่อเลี่ยง CORS preflight — ฝั่ง `doPost`
-  จะ `JSON.parse(e.postData.contents)` เอง
+- `fetch` ใช้ `mode: 'no-cors'` และส่ง body เป็น `text/plain` (JSON string) เพราะ Apps Script
+  (ContentService) ตั้ง header `Access-Control-Allow-Origin` ไม่ได้ → ยิงแบบ CORS ปกติจะโดนบล็อก
+- ข้อจำกัดของ `no-cors`: ข้อมูล**บันทึกได้จริง** แต่หน้าเว็บ**อ่านผลลัพธ์กลับไม่ได้** (opaque response)
+  จึงแสดงข้อความ "ส่งข้อมูลแล้ว โปรดตรวจสอบในปฏิทิน" แทนการยืนยันจากเซิร์ฟเวอร์
