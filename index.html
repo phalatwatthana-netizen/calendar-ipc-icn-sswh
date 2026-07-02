@@ -31,27 +31,27 @@
     <!-- ========================================== -->
     <div id="formGeneral" class="block">
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">หัวข้อ/ชื่อกิจกรรม:</label>
+        <label for="genTitle" class="block text-gray-700 font-semibold mb-2">หัวข้อ/ชื่อกิจกรรม:</label>
         <input type="text" id="genTitle" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="เช่น ประชุมทีม, ตรวจเยี่ยมแผนก">
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
-          <label class="block text-gray-700 font-semibold mb-2">วันที่:</label>
+          <label for="genDate" class="block text-gray-700 font-semibold mb-2">วันที่:</label>
           <input type="date" id="genDate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]">
         </div>
         <div>
-          <label class="block text-gray-700 font-semibold mb-2">เวลาเริ่มต้น:</label>
+          <label for="genStartTime" class="block text-gray-700 font-semibold mb-2">เวลาเริ่มต้น:</label>
           <input type="time" id="genStartTime" value="08:00" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]">
         </div>
         <div>
-          <label class="block text-gray-700 font-semibold mb-2">เวลาสิ้นสุด (ถ้ามี):</label>
+          <label for="genEndTime" class="block text-gray-700 font-semibold mb-2">เวลาสิ้นสุด (ถ้ามี):</label>
           <input type="time" id="genEndTime" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]">
         </div>
       </div>
 
       <div class="mb-6">
-        <label class="block text-gray-700 font-semibold mb-2">รายละเอียด / สถานที่:</label>
+        <label for="genDescription" class="block text-gray-700 font-semibold mb-2">รายละเอียด / สถานที่:</label>
         <textarea id="genDescription" rows="3" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="ระบุรายละเอียดเพิ่มเติม"></textarea>
       </div>
 
@@ -69,20 +69,20 @@
         <label class="block text-[#00897B] font-bold mb-3">ข้อมูลผู้ป่วย:</label>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">CODE (รหัส):</label>
+            <label for="patientCode" class="block text-gray-700 font-semibold mb-2">CODE (รหัส):</label>
             <input type="text" id="patientCode" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="ระบุรหัส CODE">
           </div>
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">HN:</label>
+            <label for="patientHN" class="block text-gray-700 font-semibold mb-2">HN:</label>
             <input type="text" id="patientHN" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="ระบุ HN">
           </div>
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">ชื่อ-สกุล:</label>
+            <label for="patientName" class="block text-gray-700 font-semibold mb-2">ชื่อ-สกุล:</label>
             <input type="text" id="patientName" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="ชื่อ-สกุลผู้ป่วย">
           </div>
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">เบอร์โทรศัพท์:</label>
-            <input type="tel" id="patientPhone" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="เบอร์โทรศัพท์ติดต่อ">
+            <label for="patientPhone" class="block text-gray-700 font-semibold mb-2">เบอร์โทรศัพท์:</label>
+            <input type="tel" id="patientPhone" inputmode="tel" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="เบอร์โทรศัพท์ติดต่อ">
           </div>
         </div>
       </div>
@@ -135,18 +135,18 @@
       <!-- ส่วนที่ 3: วันและเวลา -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
-          <label class="block text-gray-700 font-semibold mb-2">วันที่นัดหมาย:</label>
+          <label for="eventDate" class="block text-gray-700 font-semibold mb-2">วันที่นัดหมาย:</label>
           <input type="date" id="eventDate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]">
         </div>
         <div>
-          <label class="block text-gray-700 font-semibold mb-2">เวลานัดหมาย:</label>
+          <label for="eventStartTime" class="block text-gray-700 font-semibold mb-2">เวลานัดหมาย:</label>
           <input type="time" id="eventStartTime" value="08:00" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]">
         </div>
       </div>
 
       <!-- หมายเหตุเพิ่มเติม -->
       <div class="mb-6">
-        <label class="block text-gray-700 font-semibold mb-2">หมายเหตุเพิ่มเติม (ถ้ามี):</label>
+        <label for="eventDescription" class="block text-gray-700 font-semibold mb-2">หมายเหตุเพิ่มเติม (ถ้ามี):</label>
         <textarea id="eventDescription" rows="2" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#26C6DA]" placeholder="เช่น ให้งดน้ำงดอาหาร"></textarea>
       </div>
 
@@ -158,6 +158,10 @@
   </div>
 
   <script>
+    // URL ของ Web App (Apps Script) สำหรับกรณีเปิดหน้าเว็บจากโดเมนอื่น เช่น Netlify
+    // ⚠️ หากสร้าง deployment ใหม่ ให้เปลี่ยน URL นี้ให้ตรงกับ .../exec ล่าสุด
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaaEh5jsrkUqHEI57k12aCWy9Au3U1mR8Nt8CErcp9P9dTIbWb4a9bjHwXQd-jpeCz3Q/exec';
+
     // ฟังก์ชันสำหรับสลับแท็บ
     function switchTab(tabName) {
       const formGeneral = document.getElementById('formGeneral');
@@ -202,6 +206,14 @@
         return;
       }
 
+      // ตรวจสอบว่าเวลาสิ้นสุดต้องหลังเวลาเริ่มต้น (ถ้ามีการระบุ)
+      if(data.endTime && data.endTime <= data.startTime) {
+        alert("เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น");
+        btn.innerText = 'บันทึกกิจกรรมลงปฏิทิน';
+        btn.disabled = false;
+        return;
+      }
+
       sendData(data, btn, 'บันทึกกิจกรรมลงปฏิทิน', function() {
         document.getElementById('genTitle').value = '';
         document.getElementById('genDescription').value = '';
@@ -221,8 +233,22 @@
       // ตรวจสอบข้อมูลในช่อง "อื่นๆ"
       let otherCheck = document.getElementById('labOtherCheck');
       let otherText = document.getElementById('labOtherText').value.trim();
-      if (otherCheck.checked && otherText !== '') {
+      if (otherCheck.checked) {
+        if (otherText === '') {
+          alert('กรุณาระบุรายการตรวจในช่อง "อื่นๆ" หรือยกเลิกการเลือก');
+          btn.innerText = 'บันทึกนัดเจาะเลือด';
+          btn.disabled = false;
+          return;
+        }
         selectedLabs.push("อื่นๆ: " + otherText);
+      }
+
+      // ต้องเลือกรายการตรวจอย่างน้อย 1 รายการ
+      if (selectedLabs.length === 0) {
+        alert("กรุณาเลือกรายการตรวจติดตามผลเลือดอย่างน้อย 1 รายการ");
+        btn.innerText = 'บันทึกนัดเจาะเลือด';
+        btn.disabled = false;
+        return;
       }
 
       var data = {
@@ -244,6 +270,17 @@
         return;
       }
 
+      // ตรวจสอบรูปแบบเบอร์โทรศัพท์ (ถ้ามีการระบุ) - เบอร์ไทยขึ้นต้นด้วย 0 และมี 9-10 หลัก
+      if(data.phone) {
+        const phoneDigits = data.phone.replace(/[\s-]/g, '');
+        if(!/^0\d{8,9}$/.test(phoneDigits)) {
+          alert("รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง กรุณากรอกเป็นตัวเลข 9-10 หลัก (เช่น 0812345678)");
+          btn.innerText = 'บันทึกนัดเจาะเลือด';
+          btn.disabled = false;
+          return;
+        }
+      }
+
       sendData(data, btn, 'บันทึกนัดเจาะเลือด', function() {
         document.getElementById('patientCode').value = '';
         document.getElementById('patientHN').value = '';
@@ -258,17 +295,71 @@
 
     // ฟังก์ชันส่งข้อมูลไปหลังบ้าน
     function sendData(data, btnElement, originalBtnText, clearFormCallback) {
-      google.script.run
-        .withSuccessHandler(function(response) {
+      // ฟังก์ชันคืนค่าปุ่มให้กลับสู่สถานะปกติ
+      const resetButton = function() {
+        btnElement.innerText = originalBtnText;
+        btnElement.disabled = false;
+      };
+
+      // จัดการผลลัพธ์ที่ได้กลับมา (ใช้ร่วมกันทั้งสองช่องทาง)
+      const handleResponse = function(response) {
+        if (response && response.message) {
           alert(response.message);
-          if(response.success) {
-            clearFormCallback(); // ล้างฟอร์มเมื่อสำเร็จ
-          }
-          btnElement.innerText = originalBtnText;
-          btnElement.disabled = false;
-        })
-        .saveEventFromWebApp(data);
+        }
+        if (response && response.success) {
+          clearFormCallback(); // ล้างฟอร์มเมื่อสำเร็จ
+        }
+        resetButton();
+      };
+
+      const handleError = function(error) {
+        alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + (error && error.message ? error.message : error));
+        resetButton();
+      };
+
+      // ช่องทางที่ 1: เปิดผ่าน Apps Script โดยตรง (มี google.script.run)
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        try {
+          google.script.run
+            .withSuccessHandler(handleResponse)
+            .withFailureHandler(handleError)
+            .saveEventFromWebApp(data);
+        } catch (e) {
+          handleError(e);
+        }
+        return;
+      }
+
+      // ช่องทางที่ 2: เปิดจากโดเมนอื่น เช่น Netlify → ยิงไป Apps Script ผ่าน fetch()
+      // ส่งเป็น text/plain เพื่อเลี่ยง CORS preflight (ฝั่ง doPost จะ JSON.parse เอง)
+      if (!SCRIPT_URL || SCRIPT_URL.indexOf('http') !== 0) {
+        alert("ยังไม่ได้ตั้งค่า SCRIPT_URL ในหน้าเว็บ กรุณาระบุ URL ของ Apps Script (.../exec)");
+        resetButton();
+        return;
+      }
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+        .then(function(res) { return res.json(); })
+        .then(handleResponse)
+        .catch(handleError);
     }
+
+    // ตั้งค่าวันที่เริ่มต้นของทั้งสองฟอร์มเป็นวันนี้โดยอัตโนมัติ
+    function setDefaultDates() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const todayStr = `${yyyy}-${mm}-${dd}`;
+      ['genDate', 'eventDate'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el && !el.value) el.value = todayStr;
+      });
+    }
+    document.addEventListener('DOMContentLoaded', setDefaultDates);
   </script>
 </body>
 </html>
