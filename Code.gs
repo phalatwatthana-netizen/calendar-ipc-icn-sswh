@@ -1,12 +1,33 @@
-// เปิดหน้าเว็บ Web App
+// เปิดหน้าเว็บ Web App (กรณีเปิดผ่าน Apps Script โดยตรง)
 function doGet() {
   return HtmlService.createHtmlOutputFromFile('index')
     .setTitle('ระบบบันทึกนัดหมายและกิจกรรม')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
-// รับข้อมูลจากหน้าเว็บและบันทึกลง Calendar
+// รับข้อมูลแบบ HTTP POST (กรณีหน้าเว็บอยู่คนละโดเมน เช่น Netlify แล้วยิงผ่าน fetch)
+function doPost(e) {
+  var result;
+  try {
+    var data = JSON.parse(e.postData.contents);
+    result = saveEvent(data);
+  } catch (error) {
+    result = { success: false, message: "❌ เกิดข้อผิดพลาด: " + error.toString() };
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// รับข้อมูลจากหน้าเว็บ (กรณีเรียกผ่าน google.script.run บนหน้า Apps Script)
 function saveEventFromWebApp(formData) {
+  return saveEvent(formData);
+}
+
+// ==========================================================
+// ตรรกะหลักในการบันทึกกิจกรรมลง Calendar (ใช้ร่วมกันทั้ง doPost และ google.script.run)
+// ==========================================================
+function saveEvent(formData) {
   var calendarId = 'icsswh2024@gmail.com';
   var calendar = CalendarApp.getCalendarById(calendarId);
 

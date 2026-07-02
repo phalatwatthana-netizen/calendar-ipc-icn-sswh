@@ -158,6 +158,10 @@
   </div>
 
   <script>
+    // URL ของ Web App (Apps Script) สำหรับกรณีเปิดหน้าเว็บจากโดเมนอื่น เช่น Netlify
+    // ⚠️ หากสร้าง deployment ใหม่ ให้เปลี่ยน URL นี้ให้ตรงกับ .../exec ล่าสุด
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaaEh5jsrkUqHEI57k12aCWy9Au3U1mR8Nt8CErcp9P9dTIbWb4a9bjHwXQd-jpeCz3Q/exec';
+
     // ฟังก์ชันสำหรับสลับแท็บ
     function switchTab(tabName) {
       const formGeneral = document.getElementById('formGeneral');
@@ -297,34 +301,50 @@
         btnElement.disabled = false;
       };
 
-      // ตรวจสอบว่าอยู่ในสภาพแวดล้อมของ Google Apps Script หรือไม่
-      if (typeof google === 'undefined' || !google.script || !google.script.run) {
-        alert("ไม่สามารถเชื่อมต่อกับระบบได้ กรุณาเปิดผ่านหน้าเว็บแอปของ Google Apps Script");
+      // จัดการผลลัพธ์ที่ได้กลับมา (ใช้ร่วมกันทั้งสองช่องทาง)
+      const handleResponse = function(response) {
+        if (response && response.message) {
+          alert(response.message);
+        }
+        if (response && response.success) {
+          clearFormCallback(); // ล้างฟอร์มเมื่อสำเร็จ
+        }
+        resetButton();
+      };
+
+      const handleError = function(error) {
+        alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + (error && error.message ? error.message : error));
+        resetButton();
+      };
+
+      // ช่องทางที่ 1: เปิดผ่าน Apps Script โดยตรง (มี google.script.run)
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        try {
+          google.script.run
+            .withSuccessHandler(handleResponse)
+            .withFailureHandler(handleError)
+            .saveEventFromWebApp(data);
+        } catch (e) {
+          handleError(e);
+        }
+        return;
+      }
+
+      // ช่องทางที่ 2: เปิดจากโดเมนอื่น เช่น Netlify → ยิงไป Apps Script ผ่าน fetch()
+      // ส่งเป็น text/plain เพื่อเลี่ยง CORS preflight (ฝั่ง doPost จะ JSON.parse เอง)
+      if (!SCRIPT_URL || SCRIPT_URL.indexOf('http') !== 0) {
+        alert("ยังไม่ได้ตั้งค่า SCRIPT_URL ในหน้าเว็บ กรุณาระบุ URL ของ Apps Script (.../exec)");
         resetButton();
         return;
       }
 
-      // ห่อการเรียกด้วย try/catch เพื่อไม่ให้ปุ่มค้างเงียบ ๆ หากเกิด error แบบ synchronous
-      try {
-        google.script.run
-          .withSuccessHandler(function(response) {
-            if (response && response.message) {
-              alert(response.message);
-            }
-            if(response && response.success) {
-              clearFormCallback(); // ล้างฟอร์มเมื่อสำเร็จ
-            }
-            resetButton();
-          })
-          .withFailureHandler(function(error) {
-            alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + (error && error.message ? error.message : error));
-            resetButton();
-          })
-          .saveEventFromWebApp(data);
-      } catch (e) {
-        alert("ไม่สามารถเรียกใช้งานระบบได้: " + (e && e.message ? e.message : e));
-        resetButton();
-      }
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+        .then(function(res) { return res.json(); })
+        .then(handleResponse)
+        .catch(handleError);
     }
 
     // ตั้งค่าวันที่เริ่มต้นของทั้งสองฟอร์มเป็นวันนี้โดยอัตโนมัติ
