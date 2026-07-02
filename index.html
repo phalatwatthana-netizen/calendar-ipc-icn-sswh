@@ -202,6 +202,14 @@
         return;
       }
 
+      // ตรวจสอบว่าเวลาสิ้นสุดต้องหลังเวลาเริ่มต้น (ถ้ามีการระบุ)
+      if(data.endTime && data.endTime <= data.startTime) {
+        alert("เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น");
+        btn.innerText = 'บันทึกกิจกรรมลงปฏิทิน';
+        btn.disabled = false;
+        return;
+      }
+
       sendData(data, btn, 'บันทึกกิจกรรมลงปฏิทิน', function() {
         document.getElementById('genTitle').value = '';
         document.getElementById('genDescription').value = '';
@@ -221,8 +229,22 @@
       // ตรวจสอบข้อมูลในช่อง "อื่นๆ"
       let otherCheck = document.getElementById('labOtherCheck');
       let otherText = document.getElementById('labOtherText').value.trim();
-      if (otherCheck.checked && otherText !== '') {
+      if (otherCheck.checked) {
+        if (otherText === '') {
+          alert('กรุณาระบุรายการตรวจในช่อง "อื่นๆ" หรือยกเลิกการเลือก');
+          btn.innerText = 'บันทึกนัดเจาะเลือด';
+          btn.disabled = false;
+          return;
+        }
         selectedLabs.push("อื่นๆ: " + otherText);
+      }
+
+      // ต้องเลือกรายการตรวจอย่างน้อย 1 รายการ
+      if (selectedLabs.length === 0) {
+        alert("กรุณาเลือกรายการตรวจติดตามผลเลือดอย่างน้อย 1 รายการ");
+        btn.innerText = 'บันทึกนัดเจาะเลือด';
+        btn.disabled = false;
+        return;
       }
 
       var data = {
@@ -258,14 +280,32 @@
 
     // ฟังก์ชันส่งข้อมูลไปหลังบ้าน
     function sendData(data, btnElement, originalBtnText, clearFormCallback) {
+      // ฟังก์ชันคืนค่าปุ่มให้กลับสู่สถานะปกติ
+      const resetButton = function() {
+        btnElement.innerText = originalBtnText;
+        btnElement.disabled = false;
+      };
+
+      // ตรวจสอบว่าอยู่ในสภาพแวดล้อมของ Google Apps Script หรือไม่
+      if (typeof google === 'undefined' || !google.script || !google.script.run) {
+        alert("ไม่สามารถเชื่อมต่อกับระบบได้ กรุณาเปิดผ่านหน้าเว็บแอปของ Google Apps Script");
+        resetButton();
+        return;
+      }
+
       google.script.run
         .withSuccessHandler(function(response) {
-          alert(response.message);
-          if(response.success) {
+          if (response && response.message) {
+            alert(response.message);
+          }
+          if(response && response.success) {
             clearFormCallback(); // ล้างฟอร์มเมื่อสำเร็จ
           }
-          btnElement.innerText = originalBtnText;
-          btnElement.disabled = false;
+          resetButton();
+        })
+        .withFailureHandler(function(error) {
+          alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + (error && error.message ? error.message : error));
+          resetButton();
         })
         .saveEventFromWebApp(data);
     }
